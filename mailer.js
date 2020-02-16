@@ -2,8 +2,6 @@ require('dotenv').config()
 const data = require("./data2.json")
 const nodemailer = require('nodemailer')
 
-
-
 // Step 1
 // Set up the transporter: Is what is going to connect you to which ever host domain you are using or either services that you'd like to connect to
 

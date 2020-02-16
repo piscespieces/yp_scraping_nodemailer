@@ -5,10 +5,11 @@ const fs = require('fs')
 const chalk = require('chalk')
 
 const baseURL = 'https://www.yellowpages.com';
-let searchURL = '/search?search_terms=printing+services&geo_location_terms=Miami%2C+FL';
 const outputFile = 'data.json'
-let counter = 0
 const parsedResults = []
+
+let searchURL = '/search?search_terms=printing+services&geo_location_terms=Miami%2C+FL';
+let dataWithoutEmailCounter = 0
 
 const getCompanies = async () => {
     try {
@@ -32,7 +33,7 @@ const getCompanies = async () => {
             if (metadata.emailAddress !== undefined) {
                 parsedResults.push(metadata)
             } else {
-                counter++
+                dataWithoutEmailCounter++
             }
 
         })
@@ -53,16 +54,17 @@ const getCompanies = async () => {
 };
 
 getCompanies()
-    .then(result => {
-        fs.writeFile(outputFile, JSON.stringify(result, null, 4), (err) => {
+    .then(data => {
+        // Save cleared data in JSON file named data.json
+        fs.writeFile(outputFile, JSON.stringify(data, null, 4), (err) => {
             if (err) {
                 console.log(err)
             }
         })
-        console.log(result.length)
-        console.log(counter)
+        console.log(`Total emails: ${data.length}`)
+        console.log(`Total data without email information ${dataWithoutEmailCounter}`)
         // const transformed = new otcsv(result);
         // return transformed.toDisk('./printing_services.csv');
     })
-    .then(() => console.log('Success'));
+    .then(() => console.log(chalk.green('Email list saved successfully')));
 
