@@ -31,7 +31,7 @@ let mailOptions = {
 
 transporter.sendMail(mailOptions)
     .then(function (response) {
-        console.log('email sent!')
+        console.log(chalk.green('email sent!'))
     })
     .catch(function (error) {
         console.log(error)
